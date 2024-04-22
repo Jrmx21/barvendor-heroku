@@ -1,11 +1,11 @@
-package com.davidruiz.barvendor.Models;
+package com.davidruiz.barvendor.Users;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usuarios")
 public class UserModel {
    
     @Id
@@ -30,7 +30,6 @@ public class UserModel {
     
     private String password;
     
-    @Id
     public Long getId() {
         return id;
     }

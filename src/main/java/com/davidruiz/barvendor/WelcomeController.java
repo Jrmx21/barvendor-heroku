@@ -1,4 +1,4 @@
-package com.davidruiz.barvendor.Controllers;
+package com.davidruiz.barvendor;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

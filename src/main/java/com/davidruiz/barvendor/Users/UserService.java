@@ -1,13 +1,10 @@
-package com.davidruiz.barvendor.Services;
+package com.davidruiz.barvendor.Users;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.davidruiz.barvendor.Models.UserModel;
-import com.davidruiz.barvendor.Repositories.IUserRepository;
 
 @Service
 public class UserService {

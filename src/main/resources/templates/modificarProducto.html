@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <title>Modificar Producto</title>
     <style>/* styles.css */
         body {
             font-family: Arial, sans-serif;
@@ -85,40 +87,18 @@
             background-color: #c82333;
         }
         </style>
-    <title>Lista de Usuarios</title>
+
 </head>
 <body>
-    <h1>Lista de Usuarios</h1>
-    <a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Volver</a>
-    <a th:href="@{/users/crear}" class="btn">Añadir Usuario</a>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre de Usuario</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.username}"></td>
-                <td th:text="${user.firstName}"></td>
-                <td th:text="${user.lastName}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.role}"></td>
-                <td>
-                    <a th:href="@{'/users/modificar/' + ${user.id}}" class="btn">Modificar</a>
-                    <form th:action="@{'/users/eliminar/' + ${user.id}}" method="post" style="display: inline;">
-                        <button type="submit" class="btn">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <h1>Modificar Producto</h1>
+    <form th:action="@{/productos/modificar/{id}(id=${product.id})}" method="post" th:object="${product}">
+        <label>Nombre: <input type="text" th:field="*{nombreProducto}"></label><br>
+        <label>Categoría: <input type="text" th:field="*{categoria}"></label><br>
+        <label>Alergenos: <input type="text" th:field="*{alergenos}"></label><br>
+        <label>Precio: <input type="number" step="0.01" th:field="*{precio}"></label><br>
+        <label>Existencias: <input type="checkbox" th:field="*{existencias}"></label><br>
+        <button type="submit">Guardar Cambios</button>
+    </form>
+    <a href="/productos/listar" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Volver</a>
 </body>
 </html>

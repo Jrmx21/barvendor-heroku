@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  
 <head>
+    <meta charset="UTF-8">
+    <title>Listar Productos</title>
     <style>/* styles.css */
         body {
             font-family: Arial, sans-serif;
@@ -85,40 +88,40 @@
             background-color: #c82333;
         }
         </style>
-    <title>Lista de Usuarios</title>
 </head>
+
 <body>
-    <h1>Lista de Usuarios</h1>
-    <a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Volver</a>
-    <a th:href="@{/users/crear}" class="btn">Añadir Usuario</a>
+    <h1>Listar Productos</h1>
+    <a href="/" >Volver</a>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre de Usuario</th>
                 <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Rol</th>
+                <th>Categoría</th>
+                <th>Alergenos</th>
+                <th>Precio</th>
+                <th>Existencias</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.username}"></td>
-                <td th:text="${user.firstName}"></td>
-                <td th:text="${user.lastName}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.role}"></td>
+            <tr th:each="producto : ${productos}">
+                <td th:text="${producto.id}"></td>
+                <td th:text="${producto.nombreProducto}"></td>
+                <td th:text="${producto.categoria}"></td>
+                <td th:text="${producto.alergenos}"></td>
+                <td th:text="${producto.precio}"></td>
+                <td th:text="${producto.existencias}"></td>
                 <td>
-                    <a th:href="@{'/users/modificar/' + ${user.id}}" class="btn">Modificar</a>
-                    <form th:action="@{'/users/eliminar/' + ${user.id}}" method="post" style="display: inline;">
-                        <button type="submit" class="btn">Eliminar</button>
+                    <a  class="btn" th:href="@{/productos/modificar/{id}(id=${producto.id})}">Modificar</a>
+                    <form th:action="@{/productos/eliminar/{id}(id=${producto.id})}" method="post">
+                        <button type="submit"  class="btn">Eliminar</button>
                     </form>
                 </td>
             </tr>
         </tbody>
     </table>
+    <a href="/productos/crear">Crear Nuevo Producto</a>
 </body>
 </html>
