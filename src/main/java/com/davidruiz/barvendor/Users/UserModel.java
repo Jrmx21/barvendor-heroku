@@ -1,35 +1,39 @@
 package com.davidruiz.barvendor.Users;
 
-import org.antlr.v4.runtime.misc.NotNull;
-
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "Usuarios")
 public class UserModel {
    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "username", nullable = false)
     private String username;
 
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    private String email;
-
-    public enum Role {
-        Camarero,
-        Admin,
-        Cocinero
-    }
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "email", nullable = false)
+    private String email;
     
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
+
+    @Column(name = "edad", nullable = false)
+    private int edad;
+
+    // Getters y Setters
+
     public Long getId() {
         return id;
     }
@@ -62,16 +66,6 @@ public class UserModel {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-
     public String getPassword() {
         return password;
     }
@@ -88,7 +82,25 @@ public class UserModel {
         this.role = role;
     }
 
-  
+    public int getEdad() {
+        return edad;
+    }
 
-    
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public enum Role {
+        Admin,
+        Camarero,
+        Cocina
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
