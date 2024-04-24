@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Producto</title>
+    <style>/* styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-secondary {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        </style>
+
+</head>
+<body>
+    <h1>Modificar Producto</h1>
+    <form th:action="@{/productos/modificar/{id}(id=${product.id})}" method="post" th:object="${product}">
+        <label>Nombre: <input type="text" th:field="*{nombreProducto}"></label><br>
+        <label>Categoría: <input type="text" th:field="*{categoria}"></label><br>
+        <label>Alergenos: <input type="text" th:field="*{alergenos}"></label><br>
+        <label>Precio: <input type="number" step="0.01" th:field="*{precio}"></label><br>
+        <label>Existencias: <input type="checkbox" th:field="*{existencias}"></label><br>
+        <button type="submit">Guardar Cambios</button>
+    </form>
+    <a href="/productos/listar" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Volver</a>
+</body>
+</html>
