@@ -21,13 +21,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "Pedidos")
 public class OrderModel {
-    public double calcularPrecioTotal() {
-        double precioTotal = 0.0;
-        for (ProductModel product : products) {
-            precioTotal += product.getPrecio();
-        }
-        return precioTotal;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,6 +30,8 @@ public class OrderModel {
 
     @Column(name = "Notas", length = 255)
     private String notas;
+    @Column(name = "Precio", length = 255)
+    private String precio;
 
     @ManyToOne
     @JoinColumn(name = "FK3_id_usuario")
