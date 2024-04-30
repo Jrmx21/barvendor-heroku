@@ -86,5 +86,12 @@ public class OrderModel {
     public void setNotas(String notas) {
         this.notas = notas;
     }
-
+ // Método para calcular el precio total del pedido
+ public double calcularPrecioTotal() {
+    double precioTotal = 0.0;
+    for (ProductModel product : products) {
+        precioTotal += product.getPrecio();
+    }
+    return precioTotal;
+}
 }
