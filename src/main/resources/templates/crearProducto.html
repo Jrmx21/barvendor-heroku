@@ -59,7 +59,17 @@
             text-decoration: none;
             border-radius: 5px;
         }
-        
+        #guardar {
+          background-color: #007bff; /* Color de fondo azul */
+          color: #fff; /* Color del texto blanco */
+          padding: 10px 20px; /* Espaciado interno del botón */
+          border: none; /* Sin borde */
+          border-radius: 5px; /* Bordes redondeados */
+          cursor: pointer; /* Cursor de flecha */
+          text-decoration: none; /* Sin subrayado */
+          display: inline-block; /* Para que respete el ancho y alto del contenido */
+          margin-right: 10px; /* Espacio a la derecha del botón */
+        }
         .btn-secondary:hover {
             background-color: #0056b3;
         }
@@ -109,7 +119,7 @@
       <label
         >Existencias: <input type="checkbox" th:field="*{existencias}" /></label
       ><br />
-      <button type="submit">Guardar Producto</button>
+      <button type="submit" id="guardar">Guardar Producto</button>
     </form>
     <a
       href="/productos/listar"

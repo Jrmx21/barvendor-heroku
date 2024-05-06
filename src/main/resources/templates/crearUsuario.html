@@ -18,7 +18,17 @@
             display: block;
             margin-bottom: 5px;
         }
-        
+        #guardar {
+            background-color: #007bff; /* Color de fondo azul */
+            color: #fff; /* Color del texto blanco */
+            padding: 10px 20px; /* Espaciado interno del botón */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+            cursor: pointer; /* Cursor de flecha */
+            text-decoration: none; /* Sin subrayado */
+            display: inline-block; /* Para que respete el ancho y alto del contenido */
+            margin-right: 10px; /* Espacio a la derecha del botón */
+          }
         input[type="text"],
         input[type="number"],
         input[type="email"],
@@ -112,8 +122,9 @@
         
         <label>Password:</label><br>
         <input type="password" th:field="*{password}"><br>
-        
-        <button type="submit" >Guardar</button>
+    
+        <button type="submit" id="guardar" >Guardar</button>
+        <a href="/" class="btn-secondary">Volver</a>
     </form>
 </body>
 </html>

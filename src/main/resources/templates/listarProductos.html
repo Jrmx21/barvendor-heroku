@@ -41,6 +41,29 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        /* Estilo para boton azul */
+        #mod {
+          background-color: #007bff; /* Color de fondo azul */
+          color: #fff; /* Color del texto blanco */
+          padding: 10px 20px; /* Espaciado interno del botón */
+          border: none; /* Sin borde */
+          border-radius: 5px; /* Bordes redondeados */
+          cursor: pointer; /* Cursor de flecha */
+          text-decoration: none; /* Sin subrayado */
+          display: inline-block; /* Para que respete el ancho y alto del contenido */
+          margin-right: 10px; /* Espacio a la derecha del botón */
+        }
+        
+        /* Estilo para boton rojo */
+        #suprimir {
+          background-color: #dc3545; /* Color de fondo rojo */
+          color: #fff; /* Color del texto blanco */
+          padding: 10px 20px; /* Espaciado interno del botón */
+          border: none; /* Sin borde */
+          border-radius: 5px; /* Bordes redondeados */
+          cursor: pointer; /* Cursor de flecha */
+        }
+        
         
         .btn-primary {
             background-color: #007bff;
@@ -92,7 +115,11 @@
 
 <body>
     <h1>Productos</h1>
-    <a href="/" >Volver</a>
+    <a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Volver</a>
+    <a href="/productos/crear"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+      </svg></a>
     <table>
         <thead>
             <tr>
@@ -114,14 +141,14 @@
                 <td th:text="${producto.precio}"></td>
                 <td th:text="${producto.existencias}"></td>
                 <td>
-                    <a  class="btn" th:href="@{/productos/modificar/{id}(id=${producto.id})}">Modificar</a>
+                    <a  class="btn" id="mod" th:href="@{/productos/modificar/{id}(id=${producto.id})}">Modificar</a>
                     <form th:action="@{/productos/eliminar/{id}(id=${producto.id})}" method="post">
-                        <button type="submit"  class="btn">Eliminar</button>
+                        <button type="submit"  id="suprimir" class="btn">Eliminar</button>
                     </form>
                 </td>
             </tr>
         </tbody>
     </table>
-    <a href="/productos/crear">Crear Nuevo Producto</a>
+   
 </body>
 </html>
