@@ -1,23 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+<html>
 <head>
-   
     <meta charset="UTF-8">
-    <title>Bienvenido a nuestra aplicación</title>
+    <title>BarVendor</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 1%;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url('https://www.transparenttextures.com/patterns/axiom-pattern.png');
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            display: block;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        a.button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenido a nuestra aplicación Spring Boot!</h1>
-    <p>¡Gracias por visitarnos!</p>
-    <h2>¿Qué deseas hacer?</h2>
-    <ul>
-        <li><a href="/productos/listar" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Productos</a></li>
-        <li><a href="/users/listar" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Usuarios</a></li>
-        <li><a href="/pedidos" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Pedidos</a></li>
-        <li><a href="/cuentas" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Cuentas</a></li>
-        <li><a href="/mesas" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Mesas</a></li>
-        
-    
-    </ul>
+    <div class="container">
+        <h1>BarVendor</h1>
+        <h2>¿Qué deseas hacer?</h2>
+        <ul>
+            <li><a href="/productos/listar" class="button">Productos</a></li>
+            <li><a href="/users/listar" class="button">Usuarios</a></li>
+            <li><a href="/pedidos" class="button">Pedidos</a></li>
+            <li><a href="/cuentas" class="button">Cuentas</a></li>
+            <li><a href="/mesas" class="button">Mesas</a></li>
+        </ul>
+    </div>
 </body>
 </html>

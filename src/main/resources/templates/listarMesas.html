@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Mesas</title>
+</head>
+<body>
+<h1>Listado de Mesas</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Espacio para Comensales</th>
+        <th>Ubicación</th>
+        <th>Ocupada</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="table : ${tables}">
+        <td th:text="${table.id}"></td>
+        <td th:text="${table.espacio_comensales}"></td>
+        <td th:text="${table.ubicacion}"></td>
+        <td th:text="${table.ocupada ? 'Sí' : 'No'}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.davidruiz.barvendor.Orders;
 import java.sql.Date;
 import java.util.List;
 
+import com.davidruiz.barvendor.Accounts.AccountModel;
 import com.davidruiz.barvendor.Products.ProductModel;
 import com.davidruiz.barvendor.Users.UserModel;
 
@@ -36,17 +37,15 @@ public class OrderModel {
     @ManyToOne
     @JoinColumn(name = "FK3_id_usuario")
     private UserModel user;
-
+    @ManyToOne
+    @JoinColumn(name = "id_cuenta")
+    private AccountModel cuenta;
     @ManyToMany
-    @JoinTable(
-            name = "pedido_producto",
-            joinColumns = @JoinColumn(name = "FK1_id_pedidos"),
-            inverseJoinColumns = @JoinColumn(name = "FK1_id_productos")
-    )
+    @JoinTable(name = "pedido_producto", joinColumns = @JoinColumn(name = "FK1_id_pedidos"), inverseJoinColumns = @JoinColumn(name = "FK1_id_productos"))
     private List<ProductModel> products;
 
     // Getters y setters
-    
+
     public Long getId() {
         return id;
     }
@@ -86,12 +85,13 @@ public class OrderModel {
     public void setNotas(String notas) {
         this.notas = notas;
     }
- // Método para calcular el precio total del pedido
- public double calcularPrecioTotal() {
-    double precioTotal = 0.0;
-    for (ProductModel product : products) {
-        precioTotal += product.getPrecio();
+
+    // Método para calcular el precio total del pedido
+    public double calcularPrecioTotal() {
+        double precioTotal = 0.0;
+        for (ProductModel product : products) {
+            precioTotal += product.getPrecio();
+        }
+        return precioTotal;
     }
-    return precioTotal;
-}
 }
