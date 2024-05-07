@@ -9,10 +9,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Configura los endpoints de tu API que deseas permitir el acceso CORS
-                .allowedOrigins("http://localhost:8100") // Permite el acceso desde este origen
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Permite los métodos HTTP especificados
-                .allowCredentials(true); // Permite el envío de credenciales (si es necesario)
-                
+        registry.addMapping("/**")
+            .allowedOrigins("http://localhost:8100") // Aquí puedes agregar los orígenes permitidos
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .allowedHeaders("*")
+            .allowCredentials(true)
+            .maxAge(3600);
     }
 }
