@@ -1,39 +1,29 @@
 package com.davidruiz.barvendor.Accounts;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
-@RestController
-@RequestMapping("/accounts")
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Controller
 public class AccountController {
 
-    @Autowired
     private AccountService accountService;
 
-    @GetMapping
-    public List<AccountModel> getAllAccounts() {
-        return accountService.getAllAccounts();
+    @Autowired
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 
-    @GetMapping("/{id}")
-    public Optional<AccountModel> getAccountById(@PathVariable Long id) {
-        return accountService.getAccountById(id);
-    }
-
-    @PostMapping
-    public AccountModel createAccount(@RequestBody AccountModel account) {
-        return accountService.createAccount(account);
-    }
-
-    @PutMapping("/{id}")
-    public AccountModel updateAccount(@PathVariable Long id, @RequestBody AccountModel updatedAccount) {
-        return accountService.updateAccount(id, updatedAccount);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteAccount(@PathVariable Long id) {
-        accountService.deleteAccount(id);
+    @GetMapping("/cuentas")
+    public String getAllAccounts(Model model) {
+        List<AccountModel> accounts = accountService.getAllAccounts();
+        
+        model.addAttribute("accounts", accounts);
+        return "accounts"; // Nombre de la vista que mostrará las cuentas
     }
 }

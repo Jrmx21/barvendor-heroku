@@ -101,31 +101,36 @@
       <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
     </svg></a>
     <table border="1">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Fecha</th>
-          <th>Notas</th>
-          <th>Usuario</th>
-          <th>Productos</th>
-          <th>Precio</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Iteramos sobre la lista de pedidos -->
-        <tr th:each="order : ${orders}">
-          <td th:text="${order.id}"></td>
-          <td th:text="${order.fecha}"></td>
-          <td th:text="${order.notas}"></td>
-          <td th:text="${order.user.username}"></td>
-          <td>
-              <ul>
-                  <li th:each="product : ${order.products}" th:text="${product.nombreProducto}"></li>
-              </ul>
-          </td>
-          <td th:text="${order.calcularPrecioTotal()}"></td>
-        </tr>
-      </tbody>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Notas</th>
+                <th>Usuario</th>
+                <th>Productos</th>
+                <th>Precio</th>
+                <th>Cuenta</th>
+                <th>Mesa</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iteramos sobre la lista de pedidos -->
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.fecha}"></td>
+                <td th:text="${order.notas}"></td>
+                <td th:text="${order.user}"></td>
+                <td>
+                    <ul>
+                        <!-- Iteramos sobre la lista de productos del pedido -->
+                        <li th:each="product : ${order.products}" th:text="${product.nombreProducto}"></li>
+                    </ul>
+                </td>
+                <td th:text="${order.calcularPrecioTotal()}"></td>
+                <td th:text="${order.cuenta.id}"></td> 
+                <td th:text="${order.mesa.id}"></td> 
+            </tr>
+        </tbody>
     </table>
-  </body>
+</body>
 </html>

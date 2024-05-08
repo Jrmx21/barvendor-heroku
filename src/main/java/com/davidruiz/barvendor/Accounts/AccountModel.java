@@ -13,7 +13,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.davidruiz.barvendor.Orders.OrderModel;
+import com.davidruiz.barvendor.Products.ProductModel;
 import com.davidruiz.barvendor.Tables.TableModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cuentas")
@@ -22,22 +24,23 @@ public class AccountModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
     private List<OrderModel> orders;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_mesa")
     private TableModel mesa;
-
-    private String nombreProducto; // Todos los productos que se hayan pedido a esa cuenta
 
     private double precioTotal;
 
     private boolean pagado;
 
     private Date fechaPago;
-
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "id_pedido")
+    private OrderModel pedido;
     // Ubicacion de la cuenta (asumo que se relaciona con la mesa)
     private String ubicacion;
 
@@ -57,14 +60,7 @@ public class AccountModel {
         this.orders = orders;
     }
 
- 
-    public String getNombreProducto() {
-        return nombreProducto;
-    }
 
-    public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
-    }
 
     public double getPrecioTotal() {
         return precioTotal;
@@ -104,6 +100,14 @@ public class AccountModel {
 
     public void setMesa(TableModel mesa) {
         this.mesa = mesa;
+    }
+
+    public OrderModel getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(OrderModel pedido) {
+        this.pedido = pedido;
     }
 
     // Getters y Setters
