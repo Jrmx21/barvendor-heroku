@@ -38,11 +38,8 @@ public class OrderRestController {
 public ResponseEntity<OrderModel> createOrder(@RequestBody OrderModel order) {
     OrderModel createdOrder = orderService.createOrder(order);
     
-    // Recupera el pedido completo de la base de datos
-    OrderModel fullOrder = orderService.getOrderById(createdOrder.getId());
-    
-    // Devuelve el pedido completo en la respuesta
-    return ResponseEntity.status(HttpStatus.CREATED).body(fullOrder);
+    // Devuelve el pedido creado en la respuesta
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
 }
 
     // Actualizar un pedido existente

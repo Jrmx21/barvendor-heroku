@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.davidruiz.barvendor.Accounts.AccountModel;
 import com.davidruiz.barvendor.Products.ProductModel;
-import com.davidruiz.barvendor.Tables.TableModel;
+
 import com.davidruiz.barvendor.Users.UserModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -37,17 +37,14 @@ public class OrderModel {
     private String precio;
 
     @ManyToOne
-    @JsonIgnore
+ 
     @JoinColumn(name = "id_usuario")
     private UserModel user;
     @ManyToOne
-    @JsonIgnore
+
     @JoinColumn(name = "id_cuenta")
     private AccountModel cuenta;
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "id_mesa")
-    private TableModel mesa;
+
     @ManyToMany
     @JoinTable(name = "pedido_producto", joinColumns = @JoinColumn(name = "FK1_id_pedidos"), inverseJoinColumns = @JoinColumn(name = "FK1_id_productos"))
     private List<ProductModel> products;
@@ -68,14 +65,6 @@ public class OrderModel {
 
     public void setCuenta(AccountModel cuenta) {
         this.cuenta = cuenta;
-    }
-
-    public TableModel getMesa() {
-        return mesa;
-    }
-
-    public void setMesa(TableModel mesa) {
-        this.mesa = mesa;
     }
 
     public Long getId() {

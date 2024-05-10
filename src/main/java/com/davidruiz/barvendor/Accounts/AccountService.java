@@ -22,7 +22,9 @@ public class AccountService {
     public AccountModel createAccount(AccountModel account) {
         return accountRepository.save(account);
     }
-
+    public List<AccountModel> getCuentasNoPagadas() {
+        return accountRepository.findByPagadoFalse();
+    }
     public AccountModel updateAccount(Long id, AccountModel updatedAccount) {
         Optional<AccountModel> existingAccountOptional = accountRepository.findById(id);
         if (existingAccountOptional.isPresent()) {

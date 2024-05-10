@@ -1,6 +1,7 @@
 package com.davidruiz.barvendor.Accounts;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,12 @@ public class AccountRestController {
     @GetMapping
     public List<AccountModel> getAllAccounts() {
         return accountService.getAllAccounts();
+    }
+
+    @GetMapping("/abiertas")
+    public ResponseEntity<List<AccountModel>> getCuentasNoPagadas() {
+        List<AccountModel> cuentasNoPagadas = accountService.getCuentasNoPagadas();
+        return ResponseEntity.ok(cuentasNoPagadas);
     }
 
     @GetMapping("/{id}")
