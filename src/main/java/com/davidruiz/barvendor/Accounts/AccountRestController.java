@@ -43,4 +43,20 @@ public class AccountRestController {
     public void deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
     }
+
+    @PutMapping("/{id}/pagar") // Ruta para marcar la cuenta como pagada
+    public ResponseEntity<AccountModel> markAccountAsPaid(@PathVariable Long id) {
+        Optional<AccountModel> optionalAccount = accountService.getAccountById(id);
+
+        if (optionalAccount.isPresent()) {
+            AccountModel account = optionalAccount.get();
+            account.setPagado(true); // Marcar la cuenta como pagada
+            // Aquí podrías realizar otras acciones, como establecer la fecha de pago, etc.
+            accountService.updateAccount(id, account); // Actualizar la cuenta en la base de datos
+            return ResponseEntity.ok(account);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

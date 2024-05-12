@@ -37,12 +37,11 @@ public class AccountModel {
     private boolean pagado;
 
     private Date fechaPago;
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "id_pedido")
-    private OrderModel pedido;
+    // @ManyToOne
+    // @JsonIgnore
+    // @JoinColumn(name = "id_pedido")
+    // private OrderModel pedido;
     // Ubicacion de la cuenta (asumo que se relaciona con la mesa)
-    private String ubicacion;
 
     public Long getId() {
         return id;
@@ -86,13 +85,6 @@ public class AccountModel {
         this.fechaPago = fechaPago;
     }
 
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
-    }
 
     public TableModel getMesa() {
         return mesa;
@@ -102,13 +94,7 @@ public class AccountModel {
         this.mesa = mesa;
     }
 
-    public OrderModel getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(OrderModel pedido) {
-        this.pedido = pedido;
-    }
+ 
 
     // Getters y Setters
 
