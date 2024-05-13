@@ -22,8 +22,8 @@ public class TableModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "mesa", cascade = CascadeType.ALL)
-    private List<AccountModel> accounts;
+    // @OneToMany(mappedBy = "mesa", cascade = CascadeType.ALL)
+    // private List<AccountModel> accounts;
 
     @Column(name = "ubicacion")
     private String ubicacion;
@@ -59,13 +59,13 @@ public class TableModel {
         this.ocupada = ocupada;
     }
 
-    public List<AccountModel> getAccounts() {
-        return accounts;
-    }
+    // public List<AccountModel> getAccounts() {
+    //     return accounts;
+    // }
 
-    public void setAccounts(List<AccountModel> accounts) {
-        this.accounts = accounts;
-    }
+    // public void setAccounts(List<AccountModel> accounts) {
+    //     this.accounts = accounts;
+    // }
 
     public String getUbicacion() {
         return ubicacion;

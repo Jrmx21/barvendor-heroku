@@ -1,6 +1,7 @@
 package com.davidruiz.barvendor.Accounts;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,15 +28,15 @@ public class AccountModel {
     @JsonIgnore
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
     private List<OrderModel> orders;
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_mesa")
     private TableModel mesa;
 
     private double precioTotal;
 
+    
     private boolean pagado;
-
+    @Column(name = "fecha_pago" , nullable = true)
     private Date fechaPago;
     // @ManyToOne
     // @JsonIgnore
@@ -94,7 +95,7 @@ public class AccountModel {
         this.mesa = mesa;
     }
 
- 
+    
 
     // Getters y Setters
 

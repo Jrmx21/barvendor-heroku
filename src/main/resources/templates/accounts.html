@@ -131,7 +131,7 @@
                 <th>Fecha de Pago</th>
                 <th>Ubicación</th>
                 <th>Mesa</th>
-                <th>Productos Pedidos</th>
+                <th>Ubicacion</th>
             </tr>
         </thead>
         <tbody>
@@ -140,8 +140,8 @@
                 <td th:text="${account.precioTotal}"></td>
                 <td th:text="${account.pagado ? 'Pagado' : 'Pendiente'}"></td>
                 <td th:text="${account.fechaPago}"></td>
-                <td th:text="${account.ubicacion}"></td>
                 <td th:text="${account.mesa.id}"></td>
+                <td th:text="${account.mesa.ubicacion}"></td>
                 <td>
                     <ul>
                         <li th:each="order : ${account.orders}">
