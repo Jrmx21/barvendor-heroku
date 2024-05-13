@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,5 +33,27 @@ public class ProductoRestController {
             return ResponseEntity.notFound().build();
         }
     }
+  @GetMapping("/categoria/{categoria}")
+public List<ProductModel> getProductsByCategory(@PathVariable("categoria") String categoria) {
+    // Convierte el nombre de la categoría a minúsculas para asegurar la comparación exacta
+    String categoriaLowercase = categoria.toLowerCase();
+
+    // Busca la categoría correspondiente en el enum
+    ProductModel.Categoria categoriaEnum = null;
+    for (ProductModel.Categoria c : ProductModel.Categoria.values()) {
+        if (c.name().toLowerCase().equals(categoriaLowercase)) {
+            categoriaEnum = c;
+            break;
+        }
+    }
+
+    // Si la categoría no se encuentra en el enum, devuelve una lista vacía
+    if (categoriaEnum == null) {
+        return new ArrayList<>();
+    }
+
+    // Obtiene los productos filtrados por categoría desde el servicio
+    return productService.getProductsByCategory(categoriaEnum);
+}
 
 }

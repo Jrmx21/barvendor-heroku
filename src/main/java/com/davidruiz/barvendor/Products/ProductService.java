@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -49,5 +51,17 @@ public class ProductService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+     public List<ProductModel> getProductsByCategory(ProductModel.Categoria categoria) {
+        // Obtiene todos los productos desde el repositorio
+        List<ProductModel> allProducts = productRepository.findAll();
+        
+        // Filtra los productos por la categoría especificada
+        List<ProductModel> productsByCategory = allProducts.stream()
+            .filter(product -> product.getCategoria() == categoria)
+            .collect(Collectors.toList());
+
+        return productsByCategory;
     }
 }

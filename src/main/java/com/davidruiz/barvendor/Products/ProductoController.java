@@ -57,4 +57,6 @@ public class ProductoController {
         productoService.deleteProductById(id);
         return "redirect:/productos/listar";
     }
+   
+
 }
