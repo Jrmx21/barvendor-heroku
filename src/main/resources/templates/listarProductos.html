@@ -131,6 +131,7 @@
                 <th>Alergenos</th>
                 <th>Precio</th>
                 <th>Existencias</th>
+                <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -142,6 +143,7 @@
                 <td th:text="${producto.alergenos}"></td>
                 <td th:text="${producto.precio}"></td>
                 <td th:text="${producto.existencias}"></td>
+                <td th:text="${producto.descripcion}"></td>
                 <td>
                     <a  class="btn" id="mod" th:href="@{/productos/modificar/{id}(id=${producto.id})}">Modificar</a>
                     <form th:action="@{/productos/eliminar/{id}(id=${producto.id})}" method="post" style="display: inline-block;">

@@ -104,7 +104,18 @@
     <h1>Modificar Producto</h1>
     <form th:action="@{/productos/modificar/{id}(id=${product.id})}" method="post" th:object="${product}">
         <label>Nombre: <input type="text" th:field="*{nombreProducto}"></label><br>
-        <label>Categoría: <input type="text" th:field="*{categoria}"></label><br>
+        <label>Categoría:</label>
+        <select th:field="*{categoria}">
+          <option value="Bebida">Bebida</option>
+          <option value="Entrante">Entrante</option>
+          <option value="Desayunos">Desayunos</option>
+          <option value="Carnes">Carnes</option>
+          <option value="Pescados">Pescados</option>
+          <option value="Serranitos">Serranitos</option>
+          <option value="Montaditos">Montaditos</option>
+          <option value="Postre">Postre</option></select
+        ><br>
+        <label>Descripción: <input type="text" th:field="*{descripcion}"></label><br>
         <label>Alergenos: <input type="text" th:field="*{alergenos}"></label><br>
         <label>Precio: <input type="number" step="0.01" th:field="*{precio}"></label><br>
         <label>Existencias: <input type="checkbox" th:field="*{existencias}"></label><br>

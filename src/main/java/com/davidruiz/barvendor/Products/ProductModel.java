@@ -21,14 +21,20 @@ public class ProductModel {
     public enum Categoria {
         Bebida,
         Entrante,
-        Principal,
+        Desayunos, Pescados,
+        Carnes,
+        Serranitos,
+        Montaditos,
         Postre
     }
+
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
     private String alergenos;
 
+    private String descripcion;
+    
     private double precio;
 
     private boolean existencias;
@@ -42,8 +48,6 @@ public class ProductModel {
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
-
-    
 
     public String getAlergenos() {
         return alergenos;
@@ -83,5 +87,13 @@ public class ProductModel {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
