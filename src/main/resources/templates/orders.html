@@ -108,7 +108,7 @@
                 <th>Notas</th>
                 <th>Usuario</th>
                 <th>Productos</th>
-                <th>Precio</th>
+                <th>Total</th>
                 <th>Cuenta</th>
                 <th>Mesa</th>
                 <th>Ubicación</th>
@@ -124,11 +124,11 @@
                 <td>
                   <ul>
                     <li th:each="product : ${order.products}">
-                      <span th:text="${product.nombreProducto + ' ' + product.precio+' €'}"></span>
+                      <span th:text="${product.nombreProducto + ' ' + product.precio+' P.V.P'}"></span>
                     </li>
                   </ul>
                 </td>
-                <td th:text="${order.calcularPrecioTotal()}"></td>
+                <td th:text="${order.calcularPrecioTotal()+' €'}"></td>
                 <td th:text="${order.cuenta.id}"></td> 
                 <td th:text="${order.cuenta.mesa.id}"></td>
                 <td th:text="${order.cuenta.mesa.ubicacion}"></td>

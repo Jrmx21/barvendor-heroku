@@ -14,7 +14,7 @@ public class OrderService {
     public List<OrderModel> getAllOrders() {
         return orderRepository.findAll();
     }
-    
+
     public OrderModel getOrderById(Long id) {
         Optional<OrderModel> order = orderRepository.findById(id);
         return order.orElse(null);
@@ -23,6 +23,14 @@ public class OrderService {
     public OrderModel createOrder(OrderModel order) {
         // Puedes agregar aquí la lógica para validar el pedido antes de guardarlo
         return orderRepository.save(order);
+    }
+
+    // Método para obtener los pedidos más recientes
+    public List<OrderModel> obtenerPedidosRecientes() {
+        // Aquí llama al repositorio para obtener los pedidos más recientes
+        return orderRepository.findTop10ByOrderByFechaDesc(); // Suponiendo que tienes un método en tu repositorio para
+                                                              // obtener los 10 pedidos más recientes
+
     }
 
     public OrderModel updateOrder(Long id, OrderModel updatedOrder) {

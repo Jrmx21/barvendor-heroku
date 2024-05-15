@@ -34,7 +34,7 @@ public class OrderModel {
     @Column(name = "Notas", length = 255)
     private String notas;
     @Column(name = "Precio", length = 255)
-    private String precio;
+    private double precio;
 
     @ManyToOne
  
@@ -51,14 +51,9 @@ public class OrderModel {
 
     // Getters y setters
 
-    public String getPrecio() {
-        return precio;
-    }
+ 
 
-    public void setPrecio(String precio) {
-        this.precio = precio;
-    }
-
+  
     public AccountModel getCuenta() {
         return cuenta;
     }
@@ -113,6 +108,16 @@ public class OrderModel {
         for (ProductModel product : products) {
             precioTotal += product.getPrecio();
         }
+        //redondeo a dos decimales
+        precioTotal = Math.round(precioTotal * 100.0) / 100.0;
         return precioTotal;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 }

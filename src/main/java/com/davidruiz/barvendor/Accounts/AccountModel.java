@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "cuentas")
 public class AccountModel {
-
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,6 +32,7 @@ public class AccountModel {
     @JoinColumn(name = "id_mesa")
     private TableModel mesa;
 
+    @Column(nullable = true)
     private double precioTotal;
 
     
@@ -58,6 +59,7 @@ public class AccountModel {
 
     public void setOrders(List<OrderModel> orders) {
         this.orders = orders;
+   
     }
 
 
@@ -95,8 +97,7 @@ public class AccountModel {
         this.mesa = mesa;
     }
 
-    
 
-    // Getters y Setters
+
 
 }
