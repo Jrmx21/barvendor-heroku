@@ -28,6 +28,12 @@ public class AccountService {
     public List<AccountModel> getCuentasNoPagadas() {
         return accountRepository.findByPagadoFalse();
     }
+    public List<AccountModel> getClosedAccounts() {
+        // Implementa la lógica para obtener las cuentas cerradas de tu repositorio de cuentas
+        // Por ejemplo:
+        return accountRepository.findByPagadoTrue();
+    }
+    
     public AccountModel updateAccount(Long id, AccountModel updatedAccount) {
         Optional<AccountModel> existingAccountOptional = accountRepository.findById(id);
         if (existingAccountOptional.isPresent()) {
