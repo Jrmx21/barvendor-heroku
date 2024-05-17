@@ -1,5 +1,8 @@
 package com.davidruiz.barvendor.Products;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -33,11 +36,14 @@ public class ProductModel {
 
     private String alergenos;
 
+    private double discountPercentage;
     private String descripcion;
-    
+
     private double precio;
 
     private boolean existencias;
+    @Column(name = "discount_end_date")
+    private LocalDate discountEndDate;
 
     // Getters y Setters
 
@@ -96,4 +102,21 @@ public class ProductModel {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public LocalDate getDiscountEndDate() {
+        return discountEndDate;
+    }
+
+    public void setDiscountEndDate(LocalDate discountEndDate) {
+        this.discountEndDate = discountEndDate;
+    }
+
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
 }
