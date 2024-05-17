@@ -2,131 +2,76 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <style>/* styles.css */
+    <title>Crear Usuario</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 1%;
-            padding: 0;
             background-color: #f0f0f0;
+            padding: 2% 0;
         }
-        
-        h1, h2, h3, h4, h5, h6 {
-            margin-top: 0;
+
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
+
+        .btn-home {
+            margin-bottom: 20px;
         }
-        #guardar {
-            background-color: #007bff; /* Color de fondo azul */
-            color: #fff; /* Color del texto blanco */
-            padding: 10px 20px; /* Espaciado interno del botón */
-            border: none; /* Sin borde */
-            border-radius: 5px; /* Bordes redondeados */
-            cursor: pointer; /* Cursor de flecha */
-            text-decoration: none; /* Sin subrayado */
-            display: inline-block; /* Para que respete el ancho y alto del contenido */
-            margin-right: 10px; /* Espacio a la derecha del botón */
-          }
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="password"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
-        
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .btn-primary {
-            background-color: #007bff;
-            color: #fff;
-        }
-        
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        
-        .btn-secondary {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #0056b3;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th, td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        
-        th {
-            background-color: #f2f2f2;
-        }
-        
-        .btn-danger {
-            background-color: #dc3545;
-            color: #fff;
-        }
-        
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-        </style>
-    <title>Crear Usuario</title>
+    </style>
 </head>
 <body>
-    <h2>Crear Usuario</h2>
-    <form th:action="@{/users/crear}" th:object="${user}" method="post">
-        <label>Nombre de Usuario:</label><br>
-        <input type="text" th:field="*{username}"><br>
-        
-        <label>Nombre:</label><br>
-        <input type="text" th:field="*{firstName}"><br>
-        
-        <label>Apellido:</label><br>
-        <input type="text" th:field="*{lastName}"><br>
-        
-        <label>Email:</label><br>
-        <input type="email" th:field="*{email}"><br>
-        
-        <label>Rol:</label><br>
-        <select th:field="*{role}">
-            <option value="Camarero">Camarero</option>
-            <option value="Admin">Admin</option>
-            <option value="Cocinero">Cocinero</option>
-        </select><br>
-        
-        <label>Password:</label><br>
-        <input type="password" th:field="*{password}"><br>
-    
-        <button type="submit" id="guardar" >Guardar</button>
-        <a href="/users/listar" style="display: inline-block; padding: 10px 20px; background-color: #dc3545; color: #fff; text-decoration: none; border-radius: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
-          </svg></a>
-    </form>
+    <div class="container">
+        <h2 class="my-4">Crear Usuario</h2>
+        <a href="/users/listar" class="btn btn-danger btn-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+            </svg>
+            Volver
+        </a>
+        <form th:action="@{/users/crear}" th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="username">Nombre de Usuario</label>
+                <input type="text" class="form-control" id="username" th:field="*{username}" required>
+            </div>
+            <div class="form-group">
+                <label for="firstName">Nombre</label>
+                <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Apellido</label>
+                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Rol</label>
+                <select class="form-control" id="role" th:field="*{role}">
+                    <option value="Camarero">Camarero</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Cocinero">Cocinero</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" required>
+            </div>
+            <button type="submit" class="btn btn-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm1 8a.5.5 0 0 1-.5.5H8v1a.5.5 0 0 1-1 0V8.5H6.5a.5.5 0 0 1 0-1H7V6.5a.5.5 0 0 1 1 0V7h.5a.5.5 0 0 1 .5.5z"/>
+                </svg>
+                Guardar Usuario
+            </button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
