@@ -34,7 +34,6 @@ public class AccountModel {
 
     @Column(nullable = true)
     private double precioTotal;
-
     
     private boolean pagado;
     @Column(name = "fecha_pago" , nullable = true)
@@ -54,10 +53,13 @@ public class AccountModel {
     }
 
     public List<OrderModel> getOrders() {
+        calcularPrecioTotal ();
         return orders;
+        
     }
 
     public void setOrders(List<OrderModel> orders) {
+        calcularPrecioTotal ();
         this.orders = orders;
    
     }
@@ -97,7 +99,16 @@ public class AccountModel {
         this.mesa = mesa;
     }
 
-
+  // Método para calcular el precio total de todos los pedidos asociados a esta cuenta
+  public void calcularPrecioTotal() {
+    double total = 0.0;
+    if (orders != null) {
+        for (OrderModel order : orders) {
+            total += order.calcularPrecioTotal();
+        }
+    }
+    this.precioTotal = Math.round(total * 100.0) / 100.0;
+}
 
 
 }

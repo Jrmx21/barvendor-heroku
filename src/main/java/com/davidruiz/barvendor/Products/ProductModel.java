@@ -31,6 +31,7 @@ public class ProductModel {
         Postre
     }
 
+    private boolean discountActive;
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
@@ -38,13 +39,17 @@ public class ProductModel {
 
     private double discountPercentage;
     private String descripcion;
-
+// Constructor
+public ProductModel() {
+    this.precio = 0; // Establecer el precio predeterminado como 0
+    this.originalPrice = 0; // Establecer el precio original predeterminado como 0
+}
     private double precio;
 
     private boolean existencias;
     @Column(name = "discount_end_date")
     private LocalDate discountEndDate;
-
+    private double originalPrice;
     // Getters y Setters
 
     public String getNombreProducto() {
@@ -119,4 +124,29 @@ public class ProductModel {
         this.discountPercentage = discountPercentage;
     }
 
+    public boolean isDiscountActive() {
+        return discountActive;
+    }
+
+    public void setDiscountActive(boolean discountActive) {
+        this.discountActive = discountActive;
+    }
+
+    public double getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(double originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+   // Método para recalcular el precio original
+   public void recalcularPrecioOriginal() {
+    if (this.discountPercentage > 0) {
+        double precioDescuento = this.precio / (1 - (this.discountPercentage / 100));
+        this.originalPrice = Math.round(precioDescuento * 100.0) / 100.0;
+    } else {
+        this.originalPrice = this.precio;
+    }
+}
 }

@@ -67,30 +67,47 @@ public class ProductService {
     }
 
     public void applyTemporaryDiscount(double discountPercentage, int durationDays) {
-        if (discountPercentage < 0 || discountPercentage > 100) {
-            throw new IllegalArgumentException("El porcentaje de descuento debe estar entre 0 y 100");
-        }
-
-        if (durationDays <= 0) {
-            throw new IllegalArgumentException("La duración del descuento debe ser mayor que 0");
-        }
-
         LocalDate endDate = LocalDate.now().plusDays(durationDays);
-
         List<ProductModel> products = productRepository.findAll();
         for (ProductModel product : products) {
-            // Aplicar el descuento solo si no hay descuento actualmente
-            if (product.getDiscountEndDate() == null) {
-                double currentPrice = product.getPrecio();
-                double discountedPrice = currentPrice * (1 - (discountPercentage / 100));
-                discountedPrice = Math.round(discountedPrice * 100.0) / 100.0; // Redondear a dos decimales
+            if (!product.isDiscountActive() || (product.getDiscountEndDate() != null && product.getDiscountEndDate().isBefore(LocalDate.now()))) {
+                if (!product.isDiscountActive()) {
+                    product.setOriginalPrice(product.getPrecio());
+                }
+                double discountedPrice = product.getPrecio() * (1 - (discountPercentage / 100));
+                discountedPrice = Math.round(discountedPrice * 100.0) / 100.0;
                 product.setPrecio(discountedPrice);
-                product.setDiscountPercentage(discountPercentage); // Guardar el porcentaje de descuento
-                product.setDiscountEndDate(endDate); // Agregar la fecha de finalización del descuento
+                product.setDiscountPercentage(discountPercentage);
+                product.setDiscountEndDate(endDate);
+                product.setDiscountActive(true);
                 productRepository.save(product);
             }
         }
     }
 
+    public void removeTemporaryDiscount() {
+        List<ProductModel> products = productRepository.findAll();
+        for (ProductModel product : products) {
+            if (product.isDiscountActive() && product.getDiscountEndDate() != null && product.getDiscountEndDate().isBefore(LocalDate.now())) {
+                product.setPrecio(product.getOriginalPrice());
+                product.setDiscountPercentage(0);
+                product.setDiscountEndDate(null);
+                product.setDiscountActive(false);
+                productRepository.save(product);
+            }
+        }
+    }
 
+    public void removeDiscountManually() {
+        List<ProductModel> products = productRepository.findAll();
+        for (ProductModel product : products) {
+            if (product.isDiscountActive()) {
+                product.setPrecio(product.getOriginalPrice());
+                product.setDiscountPercentage(0);
+                product.setDiscountEndDate(null);
+                product.setDiscountActive(false);
+                productRepository.save(product);
+            }
+        }
+    }
 }

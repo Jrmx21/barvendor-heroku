@@ -20,18 +20,15 @@ public class ProductoController {
     @GetMapping("/listar")
     public String mostrarProductos(Model model) {
         List<ProductModel> productos = productoService.getProducts();
-    
-        // Supongamos que tomamos el primer producto de la lista para obtener la información del descuento
+
         if (!productos.isEmpty()) {
             ProductModel primerProducto = productos.get(0);
             LocalDate tiempoRestanteDescuento = primerProducto.getDiscountEndDate();
             Double porcentajeDescuentoAplicado = primerProducto.getDiscountPercentage();
             model.addAttribute("tiempoRestanteDescuento", tiempoRestanteDescuento);
-            System.out.println("tiempoRestanteDescuento: " + tiempoRestanteDescuento);
             model.addAttribute("porcentajeDescuentoAplicado", porcentajeDescuentoAplicado);
-            System.out.println("porcentajeDescuentoAplicado: " + porcentajeDescuentoAplicado);
         }
-    
+
         model.addAttribute("productos", productos);
         return "listarProductos";
     }
@@ -65,6 +62,19 @@ public class ProductoController {
         productoService.applyTemporaryDiscount(discountPercentage, durationDays);
         return "redirect:/productos/listar"; // Redirigir a la página de listar productos
     }
+    
+    @PostMapping("/recalcular-precio-original")
+    public String recalcularPrecioOriginal() {
+        productoService.removeTemporaryDiscount();
+        return "redirect:/productos/listar";
+    }
+
+    @PostMapping("/eliminar-descuento")
+    public String eliminarDescuento() {
+        productoService.removeDiscountManually();
+        return "redirect:/productos/listar";
+    }
+
     @GetMapping("/descuento-temporal")
     public String showTemporaryDiscountForm() {
         return "discountProducts"; // Nombre de la plantilla para el formulario de descuento temporal
