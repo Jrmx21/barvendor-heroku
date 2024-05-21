@@ -1,21 +1,13 @@
 package com.davidruiz.barvendor.Users;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users")
@@ -23,8 +15,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping
-    public ArrayList<UserModel> getUsers() {
+    public List<UserModel> getUsers() {
         return this.userService.getUsers();
     }
 
@@ -34,8 +29,10 @@ public class UserController {
         model.addAttribute("users", users);
         return "listarUsuarios";
     }
+
     @PostMapping
     public UserModel saveUser(@RequestBody UserModel user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return this.userService.saveUser(user);
     }
 
@@ -45,7 +42,8 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id}")
-    public UserModel updateUserById(@RequestBody UserModel user, Long id) {
+    public UserModel updateUserById(@RequestBody UserModel user, @PathVariable Long id) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return this.userService.updateUser(id, user);
     }
 
@@ -58,6 +56,7 @@ public class UserController {
             return "Usuario " + id + " no eliminado";
         }
     }
+
     @GetMapping("/crear")
     public String showCreateForm(Model model) {
         model.addAttribute("user", new UserModel());
@@ -66,6 +65,7 @@ public class UserController {
 
     @PostMapping("/crear")
     public String createUser(@ModelAttribute("user") UserModel user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/users/listar";
     }
@@ -84,6 +84,7 @@ public class UserController {
 
     @PostMapping("/modificar/{id}")
     public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") UserModel user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.updateUser(id, user);
         return "redirect:/users/listar";
     }

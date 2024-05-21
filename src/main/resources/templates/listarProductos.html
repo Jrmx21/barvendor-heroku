@@ -81,11 +81,16 @@
         </a>
       </div>
 
-        <h2>Información del Descuento:</h2>
-        <div>
-            <p>Tiempo Restante del Descuento: <span th:text="${tiempoRestanteDescuento}"></span></p>
-            <p>Porcentaje de Descuento Aplicado: <span th:text="${porcentajeDescuentoAplicado}"></span></p>
-        </div>
+      <h2>Información del Descuento:</h2>
+      <p
+        th:if="${tiempoRestanteDescuento != null && porcentajeDescuentoAplicado != null}"
+      >
+        No se puede aplicar otro descuento hasta que el actual expire. El
+        descuento actual es del
+        <span th:text="${porcentajeDescuentoAplicado}">0</span>% y estará
+        vigente hasta el
+        <span th:text="${tiempoRestanteDescuento}">fecha</span>.
+      </p>
       <table class="table table-striped table-bordered">
         <thead>
           <tr>

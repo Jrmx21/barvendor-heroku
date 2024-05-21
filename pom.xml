@@ -46,12 +46,12 @@
 <!-- <dependency>
     <groupId>org.springframework.security</groupId>
     <artifactId>spring-security-core</artifactId>
-</dependency>
+</dependency> -->
 
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-security</artifactId>
-</dependency> -->
+</dependency>
 <!-- Asegúrate de añadir la dependencia correspondiente para interactuar con tu base de datos -->
 
 	</dependencies>
