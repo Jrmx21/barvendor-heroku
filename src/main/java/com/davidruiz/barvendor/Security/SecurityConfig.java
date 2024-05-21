@@ -28,8 +28,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Disable CSRF protection if needed
             .authorizeRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll() // Permitir acceso a estas rutas
-                .requestMatchers("/api/**").hasAnyRole("CAMARERO", "COCINA")
-                .anyRequest().authenticated() // Cualquier otra solicitud debe estar autenticada
+                .requestMatchers("/api/**").permitAll() // Permitir acceso a todas las APIs
+                .anyRequest().hasRole("Admin") // Restringir acceso a cualquier otra solicitud solo para administradores
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
