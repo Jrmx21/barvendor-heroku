@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Orders</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <title>Cocina - BarVendor</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Orders</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Fecha</th>
-                <th>Notas</th>
-                <th>Productos</th>
-                <th>Precio</th>
-                <th>Listo Para Servir</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="order : ${orders}">
-                <td th:text="${order.id}">Order ID</td>
-                <td th:text="${order.fecha}">Fecha</td>
-                <td th:text="${order.notas}">Notas</td>
-                <td>
-                    <ul>
-                        <li th:each="product : ${order.products}" th:text="${product.nombreProducto}">Producto</li>
-                    </ul>
-                </td>
-                <td th:text="${order.precio}">Precio</td>
-                <td th:text="${order.listoParaServir ? 'Sí' : 'No'}">Listo Para Servir</td>
-                <td>
-                    <form th:action="@{'/kitchen/orders/' + ${order.id} + '/ready'}" method="post">
-                        <button type="submit" th:disabled="${order.listoParaServir}">Marcar como Listo</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <h1 class="my-4">Cocina</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Fecha</th>
+                    <th>Notas</th>
+                    <th>Productos</th>
+                    <th>Precio</th>
+                    <th>Listo Para Servir</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.id}">Order ID</td>
+                    <td th:text="${order.fecha}">Fecha</td>
+                    <td th:text="${order.notas}">Notas</td>
+                    <td>
+                        <ul>
+                            <li th:each="product : ${order.products}" th:text="${product.nombreProducto}">Producto</li>
+                        </ul>
+                    </td>
+                    <td th:text="${order.precio}">Precio</td>
+                    <td th:text="${order.listoParaServir ? 'Sí' : 'No'}">Listo Para Servir</td>
+                    <td>
+                        <form th:action="@{'/kitchen/orders/' + ${order.id} + '/ready'}" method="post">
+                            <button type="submit" th:disabled="${order.listoParaServir}" class="btn btn-primary">Marcar como Listo</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

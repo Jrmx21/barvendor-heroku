@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.davidruiz.barvendor.Orders.OrderService;
+import com.davidruiz.barvendor.Products.ProductModel.Categoria;
+import com.davidruiz.barvendor.Orders.OrderModel;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class KitchenController {
@@ -17,7 +22,17 @@ public class KitchenController {
 
     @GetMapping("/kitchen/orders")
     public String viewOrders(Model model) {
-        model.addAttribute("orders", orderService.getAllOrders());
+        // Obtener todos los pedidos
+        List<OrderModel> allOrders = orderService.getAllOrders();
+        
+        // Filtrar los pedidos que no están listos para servir y que tienen algún producto que no sea bebida ni entrante
+        List<OrderModel> filteredOrders = allOrders.stream()
+                .filter(order -> !order.isListoParaServir())
+                .filter(order -> order.getProducts().stream().anyMatch(product ->
+                        !product.getCategoria().equals(Categoria.Bebida) && !product.getCategoria().equals(Categoria.Entrante)))
+                .collect(Collectors.toList());
+
+        model.addAttribute("orders", filteredOrders);
         return "kitchen";
     }
 

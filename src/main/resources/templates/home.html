@@ -18,6 +18,7 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            position: relative; /* Required for absolute positioning of the button */
         }
         h1, h2 {
             color: #333;
@@ -26,10 +27,16 @@
             margin: 5px;
             transition: background-color 0.3s ease;
         }
+        .btn-logout {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <button class="btn btn-danger btn-custom btn-logout" onclick="logout()">Cerrar Sesión</button>
         <h1>BarVendor</h1>
         <h2>¿Qué deseas hacer?</h2>
         <div class="d-flex flex-wrap justify-content-center">
@@ -42,12 +49,22 @@
         <h2>Gestiones del Dueño</h2>
         <div class="d-flex flex-wrap justify-content-center">
             <a href="/productos-mas-pedidos" class="btn btn-primary btn-custom">Productos Populares</a>
-            <a href="productos/descuento-temporal" class="btn btn-primary btn-custom">Descuento Global</a>
+            <a href="/productos/descuento-temporal" class="btn btn-primary btn-custom">Descuento Global</a>
         </div>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function deleteCookie(name) {
+            document.cookie = name + '=; Max-Age=0; path=/; domain=' + location.hostname;
+        }
+
+        function logout() {
+            deleteCookie('JSESSIONID');
+            window.location.href = '/logout';
+        }
+    </script>
 </body>
 </html>

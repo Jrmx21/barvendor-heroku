@@ -24,7 +24,8 @@ public class ProductModel {
     public enum Categoria {
         Bebida,
         Entrante,
-        Desayunos, Pescados,
+        Desayunos,
+        Pescados,
         Carnes,
         Serranitos,
         Montaditos,
