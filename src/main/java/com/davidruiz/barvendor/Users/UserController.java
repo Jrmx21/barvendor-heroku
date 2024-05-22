@@ -66,6 +66,7 @@ public class UserController {
     @PostMapping("/crear")
     public String createUser(@ModelAttribute("user") UserModel user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println("User: " + user);
         userService.saveUser(user);
         return "redirect:/users/listar";
     }

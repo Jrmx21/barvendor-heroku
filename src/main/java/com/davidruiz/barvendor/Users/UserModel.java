@@ -7,12 +7,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Usuarios")
-public class UserModel   implements UserDetails{
-   
+public class UserModel implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +33,7 @@ public class UserModel   implements UserDetails{
 
     @Column(name = "email", nullable = false)
     private String email;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
@@ -40,7 +42,8 @@ public class UserModel   implements UserDetails{
     private int edad;
 
     // Getters y Setters
- @Override
+    @JsonIgnore
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }

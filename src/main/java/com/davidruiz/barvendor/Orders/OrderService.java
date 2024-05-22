@@ -75,4 +75,9 @@ public class OrderService {
                 .sorted((Map.Entry.<ProductModel, Integer>comparingByValue().reversed()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, HashMap::new));
     }
+    public void markOrderAsReady(Long id) {
+        OrderModel order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setListoParaServir(true);
+        orderRepository.save(order);
+    }
 }

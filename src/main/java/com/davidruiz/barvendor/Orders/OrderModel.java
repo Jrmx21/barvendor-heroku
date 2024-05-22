@@ -36,6 +36,8 @@ public class OrderModel {
     @Column(name = "Precio", length = 255)
     private double precio;
 
+    private boolean listoParaServir =false;
+    
     @ManyToOne
  
     @JoinColumn(name = "id_usuario")
@@ -120,5 +122,13 @@ public class OrderModel {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public boolean isListoParaServir() {
+        return listoParaServir;
+    }
+
+    public void setListoParaServir(boolean listoParaServir) {
+        this.listoParaServir = listoParaServir;
     }
 }
