@@ -20,7 +20,7 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="orders-tbody" th:fragment="orders-tbody">
                 <tr th:each="order : ${orders}">
                     <td th:text="${order.id}">Order ID</td>
                     <td th:text="${order.fecha}">Fecha</td>
@@ -41,6 +41,22 @@
             </tbody>
         </table>
     </div>
+    <script>
+        var socket = new WebSocket('ws://' + window.location.host + '/ws/orders');
+
+        socket.onmessage = function(event) {
+            fetch('/kitchen/orders', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'text/html'
+                }
+            }).then(response => response.text())
+            .then(html => {
+                document.getElementById('orders-tbody').innerHTML = 
+                    new DOMParser().parseFromString(html, 'text/html').getElementById('orders-tbody').innerHTML;
+            });
+        };
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

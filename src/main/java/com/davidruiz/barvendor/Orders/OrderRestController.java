@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.davidruiz.barvendor.config.OrderWebSocketHandler;
+
 import java.util.List;
 
 @RestController
@@ -13,6 +15,12 @@ public class OrderRestController {
 
     @Autowired
     private OrderService orderService;
+ @Autowired
+    private OrderWebSocketHandler orderWebSocketHandler;
+    private void notifyClients() {
+        orderWebSocketHandler.notifyAllClients("Nuevo pedido recibido");
+        System.out.println("Notificando a los clientes");
+    }
 
     // Obtener todos los pedidos
     @GetMapping
@@ -20,7 +28,6 @@ public class OrderRestController {
         List<OrderModel> orders = orderService.getAllOrders();
         return ResponseEntity.ok().body(orders);
     }
-
 
     // Obtener un pedido por ID
     @GetMapping("/{id}")
@@ -32,19 +39,21 @@ public class OrderRestController {
             return ResponseEntity.notFound().build();
         }
     }
-    
-// Crear un nuevo pedido
-@PostMapping
-public ResponseEntity<OrderModel> createOrder(@RequestBody OrderModel order) {
-    OrderModel createdOrder = orderService.createOrder(order);
-    
-    // Devuelve el pedido creado en la respuesta
-    return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
-}
 
+    // Crear un nuevo pedido
+    @PostMapping
+    public ResponseEntity<OrderModel> createOrder(@RequestBody OrderModel order) {
+        OrderModel createdOrder = orderService.createOrder(order);
+        notifyClients();
+        // Devuelve el pedido creado en la respuesta
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
+    }
+
+   
     // Actualizar un pedido existente
     @PutMapping("/{id}")
     public ResponseEntity<OrderModel> updateOrder(@PathVariable("id") Long id, @RequestBody OrderModel order) {
+        notifyClients();
         OrderModel updatedOrder = orderService.updateOrder(id, order);
         if (updatedOrder != null) {
             return ResponseEntity.ok().body(updatedOrder);

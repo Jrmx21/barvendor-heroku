@@ -42,3 +42,4 @@ public class KitchenController {
         return "redirect:/kitchen/orders";
     }
 }
+
