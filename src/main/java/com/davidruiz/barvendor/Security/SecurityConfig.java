@@ -28,19 +28,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF protection if needed
-            .cors() // Habilitar CORS
-            .and()
+            .csrf(csrf -> csrf.disable())
+            .cors().and()
             .authorizeRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll() // Permitir acceso a estas rutas
-                .requestMatchers("/api/**").permitAll()  // Permitir acceso a todas las APIs
-                .requestMatchers("/kitchen/orders").hasRole("Cocina") // Permitir acceso a /kitchen/orders solo a Cocina
-                .requestMatchers("/").hasRole("Admin") // Permitir acceso a / solo a Admin
-                .anyRequest().authenticated() // Restringir acceso a cualquier otra solicitud autenticada
+                .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/kitchen/orders").hasRole("Cocina")
+                .requestMatchers("/**").hasRole("Admin")
+                .anyRequest().authenticated()
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
-                .successHandler(customAuthenticationSuccessHandler()) // Usar customAuthenticationSuccessHandler para redirigir según el rol
+                .successHandler(customAuthenticationSuccessHandler())
                 .permitAll()
             )
             .logout(logout -> logout
