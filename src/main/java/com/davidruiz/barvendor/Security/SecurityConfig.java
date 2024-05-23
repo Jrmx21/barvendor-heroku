@@ -29,6 +29,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable()) // Disable CSRF protection if needed
+            .cors() // Habilitar CORS
+            .and()
             .authorizeRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll() // Permitir acceso a estas rutas
                 .requestMatchers("/api/**").permitAll()  // Permitir acceso a todas las APIs
