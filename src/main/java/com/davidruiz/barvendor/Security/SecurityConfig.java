@@ -1,5 +1,7 @@
 package com.davidruiz.barvendor.Security;
 
+import java.io.IOException;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,10 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -28,18 +28,34 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .cors().and()
+            .csrf(csrf -> csrf.disable()) // Disable CSRF protection if needed
             .authorizeRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
-                .requestMatchers("/api/**").permitAll()
-                .requestMatchers("/kitchen/orders").hasRole("Cocina")
-                .requestMatchers("/**").hasRole("Admin")
-                .anyRequest().authenticated()
+                .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll() // Permitir acceso a estas rutas
+                .requestMatchers("/api/**").permitAll()  // Permitir acceso a todas las APIs
+                .requestMatchers("/kitchen/orders").hasRole("Cocina") // Permitir acceso a /kitchen/orders solo a Cocina
+                .anyRequest().hasRole("Admin") // Restringir acceso a cualquier otra solicitud solo para administradores
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
-                .successHandler(customAuthenticationSuccessHandler())
+                .defaultSuccessUrl("/", true) // URL por defecto después del login
+                .successHandler((request, response, authentication) -> {
+                    // Redirigir según el rol del usuario
+                    authentication.getAuthorities().forEach(grantedAuthority -> {
+                        if (grantedAuthority.getAuthority().equals("ROLE_Cocina")) {
+                            try {
+                                response.sendRedirect("/kitchen/orders");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (grantedAuthority.getAuthority().equals("ROLE_Admin")) {
+                            try {
+                                response.sendRedirect("/");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                })
                 .permitAll()
             )
             .logout(logout -> logout
@@ -66,22 +82,5 @@ public class SecurityConfig {
         authenticationManagerBuilder.userDetailsService(userDetailsService)
                                     .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return (request, response, authentication) -> {
-            authentication.getAuthorities().forEach(grantedAuthority -> {
-                try {
-                    if (grantedAuthority.getAuthority().equals("ROLE_Cocina")) {
-                        response.sendRedirect("/kitchen/orders");
-                    } else if (grantedAuthority.getAuthority().equals("ROLE_Admin")) {
-                        response.sendRedirect("/");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        };
     }
 }
