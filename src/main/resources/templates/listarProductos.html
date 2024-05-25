@@ -39,6 +39,13 @@
       .btn-delete {
         margin-right: 5px;
       }
+
+      .existencias-no {
+        background-color: yellow;
+        padding: 5px;
+        border-radius: 4px;
+        color: black;
+      }
     </style>
   </head>
 
@@ -111,7 +118,14 @@
             <td th:text="${producto.categoria}"></td>
             <td th:text="${producto.alergenos}"></td>
             <td th:text="${producto.precio}"></td>
-            <td th:text="${producto.existencias}"></td>
+            <td>
+              <span th:if="${producto.existencias}" th:text="'Sí'"></span>
+              <span
+                th:unless="${producto.existencias}"
+                class="existencias-no"
+                th:text="'No'"
+              ></span>
+            </td>
             <td th:text="${producto.descripcion}"></td>
 
             <td>
@@ -160,7 +174,6 @@
       </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
