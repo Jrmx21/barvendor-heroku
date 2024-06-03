@@ -97,7 +97,28 @@ public class ProductService {
             }
         }
     }
+    public void disableProductById(Long id) {
+        Optional<ProductModel> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            ProductModel productModel = product.get();
+            productModel.setActive(false);
+            productRepository.save(productModel);
+        }
+    }
 
+    public void enableProductById(Long id) {
+        Optional<ProductModel> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            ProductModel productModel = product.get();
+            productModel.setActive(true);
+            productRepository.save(productModel);
+        }
+    }
+    public List<ProductModel> getDisabledProducts() {
+        return productRepository.findAll().stream()
+                .filter(product -> !product.isActive())
+                .collect(Collectors.toList());
+    }
     public void removeDiscountManually() {
         List<ProductModel> products = productRepository.findAll();
         for (ProductModel product : products) {

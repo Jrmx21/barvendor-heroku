@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -16,6 +17,18 @@ public class ProductoController {
 
     @Autowired
     private ProductService productoService;
+
+    @PostMapping("/deshabilitar/{id}")
+    public String deshabilitarProducto(@PathVariable("id") Long id) {
+        productoService.disableProductById(id);
+        return "redirect:/productos/listar";
+    }
+
+    @PostMapping("/habilitar/{id}")
+    public String habilitarProducto(@PathVariable("id") Long id) {
+        productoService.enableProductById(id);
+        return "redirect:/productos/restaurar";
+    }
 
     @GetMapping("/listar")
     public String mostrarProductos(Model model) {
@@ -29,10 +42,21 @@ public class ProductoController {
             model.addAttribute("porcentajeDescuentoAplicado", porcentajeDescuentoAplicado);
         }
 
-        model.addAttribute("productos", productos);
+        // Filtrar los productos activos
+        List<ProductModel> productosActivos = productos.stream()
+            .filter(ProductModel::isActive)
+            .collect(Collectors.toList());
+
+        model.addAttribute("productos", productosActivos);
         return "listarProductos";
     }
     
+    @GetMapping("/restaurar")
+    public String mostrarProductosDeshabilitados(Model model) {
+        List<ProductModel> productosDeshabilitados = productoService.getDisabledProducts();
+        model.addAttribute("productosDeshabilitados", productosDeshabilitados);
+        return "restaurarProductos";
+    }
     @GetMapping("/crear")
     public String mostrarFormularioCrear(Model model) {
         model.addAttribute("product", new ProductModel());

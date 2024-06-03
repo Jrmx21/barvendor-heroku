@@ -42,6 +42,7 @@ public class ProductModel {
     private String descripcion;
 // Constructor
 public ProductModel() {
+    this.isActive = true; // Establecer el producto como activo por defecto
     this.precio = 0; // Establecer el precio predeterminado como 0
     this.originalPrice = 0; // Establecer el precio original predeterminado como 0
 }
@@ -52,6 +53,7 @@ public ProductModel() {
     private LocalDate discountEndDate;
     private double originalPrice;
     // Getters y Setters
+    private boolean isActive=true;
 
     public String getNombreProducto() {
         return nombreProducto;
@@ -149,5 +151,13 @@ public ProductModel() {
     } else {
         this.originalPrice = this.precio;
     }
+}
+
+public boolean isActive() {
+    return isActive;
+}
+
+public void setActive(boolean isActive) {
+    this.isActive = isActive;
 }
 }
