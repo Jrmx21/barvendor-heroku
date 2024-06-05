@@ -1,6 +1,7 @@
 package com.davidruiz.barvendor.Users;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ public class UserService {
     public Optional<UserModel> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-    
+    public List<UserModel> getAllUsers() {
+        return userRepository.findAll();
+    }
     //Modificar un usuario
     public UserModel updateUser(Long id, UserModel user){
         UserModel userFound = userRepository.findById(id).get();

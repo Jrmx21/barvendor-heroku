@@ -22,10 +22,8 @@ public class KitchenController {
 
     @GetMapping("/kitchen/orders")
     public String viewOrders(Model model) {
-        // Obtener todos los pedidos
         List<OrderModel> allOrders = orderService.getAllOrders();
         
-        // Filtrar los pedidos que no están listos para servir y que tienen algún producto que no sea bebida ni entrante
         List<OrderModel> filteredOrders = allOrders.stream()
                 .filter(order -> !order.isListoParaServir())
                 .filter(order -> order.getProducts().stream().anyMatch(product ->
@@ -36,10 +34,26 @@ public class KitchenController {
         return "kitchen";
     }
 
+    @GetMapping("/kitchen/orders/ready")
+    public String viewReadyOrders(Model model) {
+        List<OrderModel> readyOrders = orderService.getReadyOrders();
+        List<OrderModel> filteredOrders = readyOrders.stream()
+                .filter(order -> order.getProducts().stream().anyMatch(product ->
+                        !product.getCategoria().equals(Categoria.Bebida) && !product.getCategoria().equals(Categoria.Entrante)))
+                .collect(Collectors.toList());
+        model.addAttribute("orders", filteredOrders);
+        return "readyOrders";
+    }
+
     @PostMapping("/kitchen/orders/{id}/ready")
     public String setOrderReady(@PathVariable Long id) {
         orderService.markOrderAsReady(id);
         return "redirect:/kitchen/orders";
     }
-}
 
+    @PostMapping("/kitchen/orders/{id}/restore")
+    public String restoreOrder(@PathVariable Long id) {
+        orderService.restoreOrder(id);
+        return "redirect:/kitchen/orders/ready";
+    }
+}

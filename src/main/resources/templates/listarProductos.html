@@ -48,9 +48,13 @@
         border-radius: 4px;
         color: black;
       }
+
+      .restore-description {
+        margin-top: 10px;
+        color: #555;
+      }
     </style>
   </head>
-
   <body>
     <div class="container">
       <h1 class="my-4">Productos</h1>
@@ -89,36 +93,47 @@
           Crear Producto
         </a>
       </div>
-      <div class="d-flex justify-content-between">
+      <div>
         <a href="/productos/restaurar" class="btn btn-success btn-listar">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
             fill="currentColor"
-            class="bi bi-arrow-repeat"
+            class="bi bi-eye"
             viewBox="0 0 16 16"
           >
             <path
-              d="M11.534 7h3a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V8.707l-2.147 2.147a.5.5 0 0 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L11.534 8.707V11.5a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 .5-.5zm-7.068 2H1a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 1 0v3.293L4.147 4.853a.5.5 0 1 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L4.466 7.293V4.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-.5.5z"
+              d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM8 12c2.287 0 3.654-.654 4.359-1.238C13.418 10.176 14 9.076 14 8s-.582-2.176-1.641-2.762C11.654 4.654 10.287 4 8 4S4.346 4.654 3.641 5.238C2.582 5.824 2 6.924 2 8s.582 2.176 1.641 2.762C4.346 11.346 5.713 12 8 12z"
             />
+            <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
           </svg>
-
-          Restaurar
+          Habilitar Productos
         </a>
+        <p class="restore-description">
+          Restaurar productos deshabilitados para volver a habilitarlos.
+        </p>
       </div>
-
-      <h2>Información del Descuento:</h2>
-      <p
-        th:if="${tiempoRestanteDescuento != null && porcentajeDescuentoAplicado != null}"
-      >
-        No se puede aplicar otro descuento hasta que el actual expire. El
-        descuento actual es del
-        <span th:text="${porcentajeDescuentoAplicado}">0</span>% y estará
-        vigente hasta el
-        <span th:text="${tiempoRestanteDescuento}">fecha</span>.
-      </p>
-
+      <form method="get" action="/productos/listar" class="form-inline my-4">
+        <label for="categoria" class="mr-2">Categoría:</label>
+        <select name="categoria" id="categoria" class="form-control mr-2">
+          <option
+            value=""
+            th:if="${categoria == null or categoria == ''}"
+            selected
+          >
+            Todas
+          </option>
+          <option
+            th:each="cat : ${categorias}"
+            th:value="${cat}"
+            th:text="${cat}"
+            th:selected="${cat == categoria}"
+          ></option>
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a href="/cuentas" class="btn btn-secondary">Restablecer búsqueda</a>
+      </form>
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
@@ -167,7 +182,6 @@
                 </svg>
                 Modificar
               </a>
-
               <form
                 th:action="@{/productos/deshabilitar/{id}(id=${producto.id})}"
                 method="post"

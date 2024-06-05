@@ -20,31 +20,26 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<OrderModel> getReadyOrders() {
+        return orderRepository.findByListoParaServir(true);
+    }
+
     public OrderModel getOrderById(Long id) {
         Optional<OrderModel> order = orderRepository.findById(id);
         return order.orElse(null);
     }
 
     public OrderModel createOrder(OrderModel order) {
-        // Puedes agregar aquí la lógica para validar el pedido antes de guardarlo
         return orderRepository.save(order);
-    }
-
-    // Método para obtener los pedidos más recientes
-    public List<OrderModel> obtenerPedidosRecientes() {
-        // Aquí llama al repositorio para obtener los pedidos más recientes
-        return orderRepository.findTop10ByOrderByFechaDesc(); // Suponiendo que tienes un método en tu repositorio para
-                                                              // obtener los 10 pedidos más recientes
-
     }
 
     public OrderModel updateOrder(Long id, OrderModel updatedOrder) {
         Optional<OrderModel> existingOrder = orderRepository.findById(id);
         if (existingOrder.isPresent()) {
-            updatedOrder.setId(id); // Aseguramos que el ID del pedido actualizado sea el mismo que el original
+            updatedOrder.setId(id);
             return orderRepository.save(updatedOrder);
         } else {
-            return null; // Devolvemos null si el pedido no existe
+            return null;
         }
     }
 
@@ -54,30 +49,34 @@ public class OrderService {
             orderRepository.deleteById(id);
             return true;
         } else {
-            return false; // Devolvemos false si el pedido no existe
+            return false;
         }
     }
+
     public Map<ProductModel, Integer> getProductCounts() {
         List<OrderModel> orders = getAllOrders();
         Map<ProductModel, Integer> productCounts = new HashMap<>();
 
-        // Iterar sobre todos los pedidos
         for (OrderModel order : orders) {
-            // Iterar sobre los productos de cada pedido
             for (ProductModel product : order.getProducts()) {
-                // Incrementar el contador del producto
                 productCounts.put(product, productCounts.getOrDefault(product, 0) + 1);
             }
         }
 
-        // Ordenar el mapa por la cantidad de veces que han sido pedidos los productos
         return productCounts.entrySet().stream()
                 .sorted((Map.Entry.<ProductModel, Integer>comparingByValue().reversed()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, HashMap::new));
     }
+
     public void markOrderAsReady(Long id) {
         OrderModel order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
         order.setListoParaServir(true);
+        orderRepository.save(order);
+    }
+
+    public void restoreOrder(Long id) {
+        OrderModel order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setListoParaServir(false);
         orderRepository.save(order);
     }
 }

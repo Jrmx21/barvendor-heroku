@@ -2,14 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cocina - BarVendor</title>
+    <title>Pedidos Listos - BarVendor</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4">Cocina</h1>
-        <a href="/login?logout" class="btn btn-danger mb-3">Cerrar sesión</a>
-        <a href="/kitchen/orders/ready" class="btn btn-primary mb-3">Ver Pedidos Listos</a>
+        <h1 class="my-4">Pedidos Listos</h1>
+        <a href="/kitchen/orders" class="btn btn-primary mb-3">Ver Pedidos Pendientes</a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -35,30 +34,14 @@
                     <td th:text="${order.precio}">Precio</td>
                     <td th:text="${order.listoParaServir ? 'Sí' : 'No'}">Listo Para Servir</td>
                     <td>
-                        <form th:action="@{'/kitchen/orders/' + ${order.id} + '/ready'}" method="post">
-                            <button type="submit" th:disabled="${order.listoParaServir}" class="btn btn-primary">Marcar como Listo</button>
+                        <form th:action="@{'/kitchen/orders/' + ${order.id} + '/restore'}" method="post">
+                            <button type="submit" th:disabled="${!order.listoParaServir}" class="btn btn-secondary">Restaurar</button>
                         </form>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <script>
-        var socket = new WebSocket('ws://' + window.location.host + '/ws/orders');
-
-        socket.onmessage = function(event) {
-            fetch('/kitchen/orders', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'text/html'
-                }
-            }).then(response => response.text())
-            .then(html => {
-                document.getElementById('orders-tbody').innerHTML = 
-                    new DOMParser().parseFromString(html, 'text/html').getElementById('orders-tbody').innerHTML;
-            });
-        };
-    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

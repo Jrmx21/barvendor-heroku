@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Controller
 @RequestMapping("/productos")
 public class ProductoController {
@@ -31,9 +30,21 @@ public class ProductoController {
     }
 
     @GetMapping("/listar")
-    public String mostrarProductos(Model model) {
+    public String mostrarProductos(@RequestParam(value = "categoria", required = false) String categoria, Model model) {
         List<ProductModel> productos = productoService.getProducts();
-
+        
+        // Filtrar los productos activos
+        List<ProductModel> productosActivos = productos.stream()
+            .filter(ProductModel::isActive)
+            .collect(Collectors.toList());
+        
+        // Filtrar por categoría si se proporciona
+        if (categoria != null && !categoria.isEmpty()) {
+            productosActivos = productosActivos.stream()
+                .filter(producto -> categoria.equalsIgnoreCase(producto.getCategoria().name()))
+                .collect(Collectors.toList());
+        }
+    
         if (!productos.isEmpty()) {
             ProductModel primerProducto = productos.get(0);
             LocalDate tiempoRestanteDescuento = primerProducto.getDiscountEndDate();
@@ -41,15 +52,21 @@ public class ProductoController {
             model.addAttribute("tiempoRestanteDescuento", tiempoRestanteDescuento);
             model.addAttribute("porcentajeDescuentoAplicado", porcentajeDescuentoAplicado);
         }
-
-        // Filtrar los productos activos
-        List<ProductModel> productosActivos = productos.stream()
-            .filter(ProductModel::isActive)
-            .collect(Collectors.toList());
-
+    
         model.addAttribute("productos", productosActivos);
+        
+        // Agregar todas las categorías al modelo, convirtiendo a String
+        List<String> categorias = productos.stream()
+            .map(ProductModel::getCategoria)
+            .map(Enum::name) // Conversión a String
+            .distinct()
+            .collect(Collectors.toList());
+        model.addAttribute("categorias", categorias);
+        model.addAttribute("categoria", categoria); // Agregar la categoría seleccionada
+        
         return "listarProductos";
     }
+    
     
     @GetMapping("/restaurar")
     public String mostrarProductosDeshabilitados(Model model) {
@@ -57,6 +74,7 @@ public class ProductoController {
         model.addAttribute("productosDeshabilitados", productosDeshabilitados);
         return "restaurarProductos";
     }
+
     @GetMapping("/crear")
     public String mostrarFormularioCrear(Model model) {
         model.addAttribute("product", new ProductModel());
@@ -80,11 +98,24 @@ public class ProductoController {
             return "redirect:/productos/listar";
         }
     }
+    
+    @PostMapping("/modificar/{id}")
+    public String modificarProducto(@PathVariable("id") Long id, @ModelAttribute("product") ProductModel producto) {
+        productoService.updateProduct(id, producto);
+        return "redirect:/productos/listar";
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String eliminarProducto(@PathVariable("id") Long id) {
+        productoService.deleteProductById(id);
+        return "redirect:/productos/listar";
+    }
+
     @PostMapping("/descuento-temporal")
     public String applyTemporaryDiscount(@RequestParam("descuento") double discountPercentage,
                                          @RequestParam("duracion") int durationDays) {
         productoService.applyTemporaryDiscount(discountPercentage, durationDays);
-        return "redirect:/productos/listar"; // Redirigir a la página de listar productos
+        return "redirect:/productos/listar";
     }
     
     @PostMapping("/recalcular-precio-original")
@@ -103,22 +134,4 @@ public class ProductoController {
     public String showTemporaryDiscountForm() {
         return "discountProducts"; // Nombre de la plantilla para el formulario de descuento temporal
     }
-    public String getMethodName(@RequestParam String param) {
-        return new String();
-    }
-    
-    @PostMapping("/modificar/{id}")
-    public String modificarProducto(@PathVariable("id") Long id, @ModelAttribute("product") ProductModel producto) {
-        productoService.updateProduct(id, producto);
-        return "redirect:/productos/listar";
-    }
-
-
-    @PostMapping("/eliminar/{id}")
-    public String eliminarProducto(@PathVariable("id") Long id) {
-        productoService.deleteProductById(id);
-        return "redirect:/productos/listar";
-    }
-   
-
 }

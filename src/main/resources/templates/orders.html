@@ -27,77 +27,212 @@
             margin-bottom: 20px;
         }
 
-        table {
-            width: 100%;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        th, td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
+        .form-inline .form-group {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
         }
 
-        th {
-            background-color: #f2f2f2;
+        .form-inline label {
+            margin-right: 5px;
         }
 
-        .btn-danger {
-            background-color: #dc3545;
-            color: #fff;
+        .btn-primary, .btn-secondary {
+            margin-top: 10px;
+            margin-right: 5px;
         }
 
-        .btn-danger:hover {
-            background-color: #c82333;
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
+
+        .form-control-hidden {
+            display: none;
         }
     </style>
+    <script>
+        function showField(select) {
+            var fields = document.querySelectorAll(".form-control-hidden");
+            fields.forEach(function (field) {
+                field.style.display = "none";
+                var input = field.querySelector('input, select');
+                if (input) {
+                    input.value = ''; // Clear the input value
+                }
+            });
+
+            var selectedValue = select.value;
+            if (selectedValue) {
+                var fieldToShow = document.getElementById(selectedValue);
+                if (fieldToShow) {
+                    fieldToShow.style.display = "block";
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var select = document.getElementById("filter-type");
+            showField(select);
+            select.addEventListener("change", function () {
+                showField(select);
+            });
+        });
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h1 class="my-4">Pedidos</h1>
-        <a href="/" class="btn btn-primary btn-home">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
-            </svg>
-            Inicio
-        </a>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fecha</th>
-                    <th>Notas</th>
-                    <th>Usuario</th>
-                    <th>Productos</th>
-                    <th>Total</th>
-                    <th>Cuenta</th>
-                    <th>Mesa</th>
-                    <th>Ubicación</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Iteramos sobre la lista de pedidos -->
-                <tr th:each="order : ${orders}">
-                    <td th:text="${order.id}"></td>
-                    <td th:text="${order.fecha}"></td>
-                    <td th:text="${order.notas}"></td>
-                    <td th:text="${order.user.username}"></td>
-                    <td>
-                        <ul>
-                            <li th:each="product : ${order.products}">
-                                <span th:text="${product.nombreProducto + ' ' + product.precio + ' P.V.P'}"></span>
-                            </li>
-                        </ul>
-                    </td>
-                    <td th:text="${order.calcularPrecioTotal() + ' €'}"></td>
-                    <td th:text="${order.cuenta.id}"></td>
-                    <td th:text="${order.cuenta.mesa.id}"></td>
-                    <td th:text="${order.cuenta.mesa.ubicacion}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="container">
+    <h1 class="my-4">Pedidos</h1>
+    <a href="/" class="btn btn-primary btn-home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+        </svg>
+        Inicio
+    </a>
+    <form method="get" action="/pedidos" class="form my-4">
+        <div class="form-group">
+            <label for="filter-type">Filtrar por:</label>
+            <select id="filter-type" name="filterType" class="form-control" th:value="${filterType}">
+                <option value="">Seleccionar</option>
+                <option value="pedido" th:selected="${filterType == 'pedido'}">Pedido</option>
+                <option value="mesa" th:selected="${filterType == 'mesa'}">Mesa</option>
+                <option value="fecha" th:selected="${filterType == 'fecha'}">Fecha</option>
+                <option value="usuario" th:selected="${filterType == 'usuario'}">Usuario</option>
+                <option value="cuenta" th:selected="${filterType == 'cuenta'}">Cuenta</option>
+                <option value="precioMin" th:selected="${filterType == 'precioMin'}">Precio Min</option>
+                <option value="precioMax" th:selected="${filterType == 'precioMax'}">Precio Max</option>
+            </select>
+        </div>
+        <div id="pedido" class="form-group form-control-hidden">
+            <label for="pedido-input">Pedido:</label>
+            <input
+                type="number"
+                name="pedido"
+                id="pedido-input"
+                class="form-control"
+                placeholder="ID Pedido"
+                th:value="${pedido}"
+            />
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+        <div id="mesa" class="form-group form-control-hidden">
+            <label for="mesa-input">Mesa:</label>
+            <select name="mesa" id="mesa-input" class="form-control">
+                <option value="">Todas</option>
+                <option
+                    th:each="mesa : ${mesas}"
+                    th:value="${mesa.id}"
+                    th:text="${mesa.id}"
+                    th:selected="${mesa.id == mesaSeleccionada}"
+                ></option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+        <div id="fecha" class="form-group form-control-hidden">
+            <label for="fecha-input">Fecha:</label>
+            <input
+                type="date"
+                name="fecha"
+                id="fecha-input"
+                class="form-control"
+                th:value="${fecha}"
+            />
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+        <div id="usuario" class="form-group form-control-hidden">
+            <label for="usuario-input">Usuario:</label>
+            <select name="usuario" id="usuario-input" class="form-control">
+                <option value="">Todos</option>
+                <option
+                    th:each="usuario : ${usuarios}"
+                    th:value="${usuario.id}"
+                    th:text="${usuario.firstName + ' ' + usuario.lastName }"
+                    th:selected="${usuario.id == usuarioSeleccionado}"
+                ></option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+        <div id="cuenta" class="form-group form-control-hidden">
+            <label for="cuenta-input">Cuenta:</label>
+            <select name="cuenta" id="cuenta-input" class="form-control">
+                <option value="">Todas</option>
+                <option
+                    th:each="cuenta : ${cuentas}"
+                    th:value="${cuenta.id}"
+                    th:text="${cuenta.id}"
+                    th:selected="${cuenta.id == cuentaSeleccionada}"
+                ></option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+        <div id="precioMin" class="form-group form-control-hidden">
+            <label for="precioMin-input">Precio Min:</label>
+            <input
+                type="number"
+                step="0.01"
+                name="precioMin"
+                id="precioMin-input"
+                class="form-control"
+                th:value="${precioMin}"
+            />
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+        <div id="precioMax" class="form-group form-control-hidden">
+            <label for="precioMax-input">Precio Max:</label>
+            <input
+                type="number"
+                step="0.01"
+                name="precioMax"
+                id="precioMax-input"
+                class="form-control"
+                th:value="${precioMax}"
+            />
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+        <a href="/pedidos" class="btn btn-secondary">Restablecer búsqueda</a>
+    </form>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>ID Pedido</th>
+            <th>Fecha</th>
+            <th>Notas</th>
+            <th>Usuario</th>
+            <th>Productos</th>
+            <th>Total</th>
+            <th>Cuenta</th>
+            <th>Mesa</th>
+            <th>Ubicación</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${#dates.format(order.fecha, 'yyyy-MM-dd')}"></td>
+            <td th:text="${order.notas}"></td>
+            <td th:text="${order.user.username}"></td>
+            <td>
+                <ul>
+                    <li th:each="product : ${order.products}">
+                        <span th:text="${product.nombreProducto + ' ' + product.precio + ' P.V.P'}"></span>
+                    </li>
+                </ul>
+            </td>
+            <td th:text="${order.calcularPrecioTotal() + ' €'}"></td>
+            <td th:text="${order.cuenta.id}"></td>
+            <td th:text="${order.cuenta.mesa.id}"></td>
+            <td th:text="${order.cuenta.mesa.ubicacion}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
