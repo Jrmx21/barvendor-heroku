@@ -103,16 +103,12 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="my-4">Pedidos Listos</h1>
+      <h1 class="my-4">Cocina - Pedidos Listos</h1>
       <a href="/kitchen/orders" class="btn btn-primary btn-home">
         <i class="fas fa-home"></i> Ver Pedidos Pendientes
       </a>
-      <form
-        method="get"
-        action="/kitchen/orders/ready"
-        class="form-inline my-4"
-      >
-        <div class="form-group">
+      <form method="get" action="/kitchen/orders/ready" class="my-4">
+        <div class="form-group mb-3">
           <label for="fecha">Filtrar por Fecha:</label>
           <input
             type="date"
@@ -121,10 +117,14 @@
             class="form-control"
             th:value="${fecha}"
           />
+        </div>
+        <div class="form-group mb-3">
           <button type="submit" class="btn btn-primary btn-custom">
             <i class="fas fa-search"></i> Filtrar
           </button>
-          <a href="/kitchen/orders/ready" class="btn btn-secondary btn-custom">
+        </div>
+        <div class="form-group mb-3">
+          <a href="/kitchen/orders/ready" class="btn btn-secondary">
             <i class="fas fa-sync-alt"></i> Restablecer búsqueda
           </a>
         </div>

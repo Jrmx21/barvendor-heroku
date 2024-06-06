@@ -53,44 +53,33 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="my-4">Cocina</h1>
+      <h1 class="my-4">Cocina - Pedidos a preparar</h1>
       <a href="/login?logout" class="btn btn-danger">
         <i class="fas fa-sign-out-alt"></i> Cerrar sesión
       </a>
       <a href="/kitchen/orders/ready" class="btn btn-primary">
         <i class="fas fa-check"></i> Ver Pedidos Listos
       </a>
-      <form
-        method="get"
-        action="/kitchen/orders/ready"
-        class="form-inline my-4"
-      >
-        <div class="form-row">
-          <div class="form-group">
-            <label for="fecha">Filtrar por Fecha:</label>
-            <input
-              type="date"
-              name="fecha"
-              id="fecha"
-              class="form-control"
-              th:value="${fecha}"
-            />
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-custom">
-                <i class="fas fa-search"></i> Filtrar
-              </button>
-            </div>
-            <div class="form-group">
-              <a
-                href="/kitchen/orders/ready"
-                class="btn btn-secondary btn-custom"
-              >
-                <i class="fas fa-sync-alt"></i> Restablecer búsqueda
-              </a>
-            </div>
-          </div>
+      <form method="get" action="/kitchen/orders/ready" class="my-4">
+        <div class="form-group">
+          <label for="fecha">Filtrar por Fecha:</label>
+          <input
+            type="date"
+            name="fecha"
+            id="fecha"
+            class="form-control"
+            th:value="${fecha}"
+          />
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-custom">
+            <i class="fas fa-search"></i> Filtrar
+          </button>
+        </div>
+        <div class="form-group mb-3">
+          <a href="/kitchen/orders/ready" class="btn btn-secondary">
+            <i class="fas fa-sync-alt"></i> Restablecer búsqueda
+          </a>
         </div>
       </form>
       <table class="table table-striped table-bordered">
@@ -135,18 +124,6 @@
                   class="btn btn-primary"
                 >
                   Marcar como Listo
-                </button>
-              </form>
-              <form
-                th:action="@{'/kitchen/orders/' + ${order.id} + '/restore'}"
-                method="post"
-              >
-                <button
-                  type="submit"
-                  th:disabled="${!order.listoParaServir}"
-                  class="btn btn-secondary"
-                >
-                  Restaurar
                 </button>
               </form>
             </td>
