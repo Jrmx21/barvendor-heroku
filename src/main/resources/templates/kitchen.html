@@ -156,9 +156,9 @@
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        var socket = new WebSocket(
-          "ws://" + window.location.host + "/ws/orders"
-        );
+        const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        const wsEndpoint = wsProtocol + window.location.host + '/ws/orders';
+        var socket = new WebSocket(wsEndpoint);
 
         socket.onmessage = function (event) {
           fetch("/kitchen/orders", {
