@@ -1,11 +1,18 @@
 package com.davidruiz.barvendor.Orders;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.davidruiz.barvendor.Products.ProductModel;
+
 import java.util.stream.Collectors;
+
 @Service
 public class OrderService {
     @Autowired
@@ -42,6 +49,29 @@ public class OrderService {
         } else {
             return null;
         }
+    }
+
+    public Map<ProductModel, Integer> getProductCounts() {
+        List<OrderModel> orders = getAllOrders();
+        Map<ProductModel, Integer> productCounts = new HashMap<>();
+
+        // Iterar sobre todos los pedidos
+        for (OrderModel order : orders) {
+            // Iterar sobre los productos de cada pedido
+            for (ProductModel product : order.getProducts()) {
+                // Incrementar el contador del producto
+                productCounts.put(product, productCounts.getOrDefault(product, 0) + 1);
+            }
+        }
+
+        // Ordenar el mapa por la cantidad de veces que han sido pedidos los productos
+        return productCounts.entrySet().stream()
+                .sorted(Map.Entry.<ProductModel, Integer>comparingByValue().reversed())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue,
+                        LinkedHashMap::new)); // LinkedHashMap para mantener el orden
     }
 
     public boolean deleteOrder(Long id) {

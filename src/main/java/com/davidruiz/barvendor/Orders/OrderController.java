@@ -3,6 +3,7 @@ package com.davidruiz.barvendor.Orders;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.davidruiz.barvendor.Accounts.AccountModel;
 import com.davidruiz.barvendor.Accounts.AccountService;
+import com.davidruiz.barvendor.Products.ProductModel;
 import com.davidruiz.barvendor.Tables.TableModel;
 import com.davidruiz.barvendor.Tables.TableService;
 import com.davidruiz.barvendor.Users.UserModel;
@@ -124,6 +126,12 @@ if (cuenta != null) {
         model.addAttribute("precioMin", precioMin);
         model.addAttribute("precioMax", precioMax);
         return "orders"; // Nombre de la plantilla para mostrar los pedidos
+    }
+      @GetMapping("/productos-mas-pedidos")
+    public String getPopularProducts(Model model) {
+        Map<ProductModel, Integer> productCounts = orderService.getProductCounts();
+        model.addAttribute("productCounts", productCounts);
+        return "popular_products"; // Nombre de la nueva plantilla para mostrar los productos más pedidos
     }
 }
 

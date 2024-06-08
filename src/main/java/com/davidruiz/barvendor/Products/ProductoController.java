@@ -134,4 +134,5 @@ public class ProductoController {
     public String showTemporaryDiscountForm() {
         return "discountProducts"; // Nombre de la plantilla para el formulario de descuento temporal
     }
+    
 }
