@@ -117,11 +117,7 @@
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        var socket = new WebSocket(
-          "ws://" + window.location.host + "/ws/orders"
-        );
-
-        socket.onmessage = function (event) {
+        function updateOrders() {
           fetch("/kitchen/orders", {
             method: "GET",
             headers: {
@@ -135,7 +131,10 @@
                   .parseFromString(html, "text/html")
                   .getElementById("orders-tbody").innerHTML;
             });
-        };
+        }
+
+        // Actualiza los pedidos cada 10 segundos
+        setInterval(updateOrders, 10000);
       });
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
