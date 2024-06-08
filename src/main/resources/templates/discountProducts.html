@@ -30,13 +30,19 @@
         margin-bottom: 20px;
       }
 
-      .btn-apply,
-      .btn-remove {
+      .btn-group {
+        display: flex;
+        justify-content: space-between;
         margin-top: 20px;
       }
 
-      .btn-remove {
-        margin-left: 10px;
+      .btn-home {
+        margin-bottom: 20px;
+      }
+
+      .section-title {
+        margin-top: 40px;
+        margin-bottom: 20px;
       }
     </style>
   </head>
@@ -91,11 +97,14 @@
           vigente hasta el
           <span th:text="${tiempoRestanteDescuento}">fecha</span>.
         </p>
-        <button type="submit" class="btn btn-primary btn-apply">
-          Aplicar Descuento
-        </button>
+        <div>
+          <button type="submit" class="btn btn-primary btn-apply">
+            Aplicar Descuento
+          </button>
+        </div>
       </form>
-      <form action="/productos/eliminar-descuento" method="post">
+      <br>
+      <form id="remove-discount-form" action="/productos/eliminar-descuento" method="post">
         <button type="submit" class="btn btn-danger btn-remove">
           Eliminar Descuento
         </button>

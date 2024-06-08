@@ -98,11 +98,11 @@
             <label for="filter-type">Filtrar por:</label>
             <select id="filter-type" name="filterType" class="form-control" th:value="${filterType}">
                 <option value="">Seleccionar</option>
-                <option value="pedido" th:selected="${filterType == 'pedido'}">Pedido</option>
-                <option value="mesa" th:selected="${filterType == 'mesa'}">Mesa</option>
+                <option value="pedido" th:selected="${filterType == 'pedido'}">Id Pedido</option>
+                <option value="mesa" th:selected="${filterType == 'mesa'}">Id Mesa</option>
                 <option value="fecha" th:selected="${filterType == 'fecha'}">Fecha</option>
                 <option value="usuario" th:selected="${filterType == 'usuario'}">Usuario</option>
-                <option value="cuenta" th:selected="${filterType == 'cuenta'}">Cuenta</option>
+                <option value="cuenta" th:selected="${filterType == 'cuenta'}">Id Cuenta</option>
                 <option value="precioMin" th:selected="${filterType == 'precioMin'}">Precio Min</option>
                 <option value="precioMax" th:selected="${filterType == 'precioMax'}">Precio Max</option>
             </select>
