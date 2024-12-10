@@ -1,5 +1,7 @@
 Aplicacion WEB + BACKEND "BARVENDOR"
-Esta es la parte App Web de mi proyecto, también tiene su parte de app Móvil con Ionic(Angular).
+
+Esta es la parte App Web de mi proyecto para hacer acciones de gestión del bar y las comandas de cocina, también tiene su parte de app Móvil con Ionic(Angular) para adoptar todas las acciones de los camareros.
+
 PRESENTACIÓN PDF: https://docs.google.com/presentation/d/1FoXfac5rst8z3PSUA7DmonkYFChOw8TdanJqfQ5rUAk/edit?usp=sharing
 MANUAL DEL USUARIO: https://docs.google.com/document/d/13sCFEjfv-gxSF0XIWPsmT8FvVD2L6HQ1JoB8-JOINyQ/edit?usp=sharing
 
