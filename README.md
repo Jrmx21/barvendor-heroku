@@ -1,5 +1,7 @@
 Aplicacion WEB + BACKEND "BARVENDOR"
+Esta es la parte App Web de mi proyecto, también tiene su parte de app Móvil con Ionic(Angular).
 PRESENTACIÓN PDF: https://docs.google.com/presentation/d/1FoXfac5rst8z3PSUA7DmonkYFChOw8TdanJqfQ5rUAk/edit?usp=sharing
+MANUAL DEL USUARIO: https://docs.google.com/document/d/13sCFEjfv-gxSF0XIWPsmT8FvVD2L6HQ1JoB8-JOINyQ/edit?usp=sharing
 
 Que es BarVendor?
 Es una aplicación que sirve para llevar mejor toda la actividad y flujo de trabajo de un bar. Desde el pedido de un comensal hasta la administración del dueño del bar.
